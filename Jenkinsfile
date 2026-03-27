@@ -20,21 +20,9 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build & Test') {
             steps {
-                bat 'mvn clean install'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                bat 'mvn test'
-            }
-        }
-
-        stage('Code Coverage') {
-            steps {
-                bat 'mvn jacoco:report'
+                bat 'mvn clean package'
             }
         }
 

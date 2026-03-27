@@ -41,37 +41,113 @@ class MainTest {
     }
 
     @Test
+    void testItemTotalWithDecimals() {
+        assertEquals(17.4, Main.calculateItemTotal(8.7, 2), 0.001);
+    }
+
+    @Test
+    void testCartTotalWithDecimals() {
+        double[] prices = {10.5, 5.25};
+        int[] quantities = {2, 4};
+        assertEquals(42.0, Main.calculateCartTotal(prices, quantities), 0.001);
+    }
+
+    @Test
+    void testLargeNumbers() {
+        assertEquals(1000000, Main.calculateItemTotal(1000, 1000));
+    }
+
+    @Test
+    void testVerySmallDecimals() {
+        assertEquals(0.002, Main.calculateItemTotal(0.001, 2), 0.0001);
+    }
+
+    @Test
+    void testCartWithMixedValues() {
+        double[] prices = {0, 10.99, 5.50};
+        int[] quantities = {10, 1, 2};
+        assertEquals(21.99, Main.calculateCartTotal(prices, quantities), 0.001);
+    }
+
+    @Test
+    void testCartTotalSingleItem() {
+        double[] prices = {15.99};
+        int[] quantities = {1};
+        assertEquals(15.99, Main.calculateCartTotal(prices, quantities), 0.001);
+    }
+
+    @Test
+    void testCartTotalMultipleItemsDifferentQuantities() {
+        double[] prices = {1, 2, 3, 4, 5};
+        int[] quantities = {10, 20, 30, 40, 50};
+        assertEquals(550, Main.calculateCartTotal(prices, quantities));
+    }
+
+    // ✅ UPDATED LOCALE TESTS (String instead of int)
+
+    @Test
     void testLocaleEnglish() {
-        Locale locale = Main.getLocale(1);
+        Locale locale = Main.getLocale("EN");
         assertEquals("en", locale.getLanguage());
+        assertEquals("US", locale.getCountry());
     }
 
     @Test
     void testLocaleFinnish() {
-        assertEquals("fi", Main.getLocale(2).getLanguage());
+        Locale locale = Main.getLocale("FI");
+        assertEquals("fi", locale.getLanguage());
+        assertEquals("FI", locale.getCountry());
     }
 
     @Test
     void testLocaleSwedish() {
-        assertEquals("sv", Main.getLocale(3).getLanguage());
+        Locale locale = Main.getLocale("SV");
+        assertEquals("sv", locale.getLanguage());
+        assertEquals("SE", locale.getCountry());
     }
 
     @Test
     void testLocaleJapanese() {
-        assertEquals("ja", Main.getLocale(4).getLanguage());
+        Locale locale = Main.getLocale("JP");
+        assertEquals("ja", locale.getLanguage());
+        assertEquals("JP", locale.getCountry());
+    }
+
+    @Test
+    void testLocaleArabic() {
+        Locale locale = Main.getLocale("AR");
+        assertEquals("ar", locale.getLanguage());
+        assertEquals("AR", locale.getCountry());
     }
 
     @Test
     void testDefaultLocale() {
-        assertEquals("en", Main.getLocale(99).getLanguage());
+        Locale locale = Main.getLocale("UNKNOWN");
+        assertEquals("en", locale.getLanguage());
+        assertEquals("US", locale.getCountry());
     }
 
-    // ? VERY IMPORTANT (this increases coverage a lot)
     @Test
-    void testMainExecution() {
-        String input = "1\n1\n10\n2\n";
-        System.setIn(new java.io.ByteArrayInputStream(input.getBytes()));
-        Main.main(new String[]{});
+    void testLocaleCaseSensitivity() {
+        Locale locale1 = Main.getLocale("EN");
+        Locale locale2 = Main.getLocale("en");
+        assertEquals(locale1.getLanguage(), locale2.getLanguage());
     }
+
+    @Test
+    void testLocaleEmptyString() {
+        Locale locale = Main.getLocale("");
+        assertEquals("en", locale.getLanguage());
+        assertEquals("US", locale.getCountry());
+    }
+
+    @Test
+    void testLocaleNumbers() {
+        Locale locale = Main.getLocale("123");
+        assertEquals("en", locale.getLanguage());
+        assertEquals("US", locale.getCountry());
+    }
+
+    // ❌ REMOVED: testMainExecution (no longer valid for GUI app)
 
 }

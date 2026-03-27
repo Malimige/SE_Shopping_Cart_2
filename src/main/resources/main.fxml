@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller">
+
+    <ComboBox fx:id="languageBox" onAction="#handleLanguageChange"/>
+
+    <!-- ✅ NEW FIELD -->
+    <TextField fx:id="itemsField" promptText="Enter number of items"/>
+
+    <TextField fx:id="priceField" promptText="Enter price"/>
+    <TextField fx:id="quantityField" promptText="Enter quantity"/>
+
+    <Button fx:id="calculateButton" text="Calculate" onAction="#handleCalculate"/>
+
+    <Label fx:id="resultLabel" text="Total:"/>
+
+</VBox>
