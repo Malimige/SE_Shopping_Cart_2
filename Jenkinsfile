@@ -11,12 +11,9 @@ pipeline {
         DOCKERHUB_REPO = 'roshinif/shopping-cart'
         DOCKER_IMAGE_TAG = 'latest'
         SONAR_TOKEN = credentials('sonar-token')
-
-    }
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Malimige/SE_Shopping_Cart.git'
@@ -31,13 +28,13 @@ pipeline {
 
         stage('Test') {
             steps {
-                bat 'mvn -e clean test'
+                bat 'mvn -e test'
             }
         }
 
         stage('Package') {
             steps {
-                bat 'mvn clean package'
+                bat 'mvn package'
             }
         }
 
