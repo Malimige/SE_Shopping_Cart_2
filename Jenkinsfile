@@ -10,7 +10,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
         DOCKERHUB_REPO = 'roshinif/shopping-cart'
         DOCKER_IMAGE_TAG = 'latest'
-        SONAR_TOKEN = credentials('sonar-token')
+        SONAR_TOKEN = credentials('sonar')
     }
 
     stages {
