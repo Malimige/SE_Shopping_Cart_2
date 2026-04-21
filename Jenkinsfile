@@ -11,6 +11,9 @@ pipeline {
         DOCKERHUB_REPO = 'roshinif/shopping-cart'
         DOCKER_IMAGE_TAG = 'latest'
     }
+    environment {
+        SONAR_TOKEN = credentials('sonar-token')
+    }
 
     stages {
 
@@ -28,13 +31,13 @@ pipeline {
 
         stage('Test') {
             steps {
-                bat 'mvn test'
+                bat 'mvn -e clean test'
             }
         }
 
         stage('Package') {
             steps {
-                bat 'mvn package'
+                bat 'mvn clean package'
             }
         }
 
@@ -47,6 +50,14 @@ pipeline {
         stage('Publish Coverage Report') {
             steps {
                 jacoco()
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQubeServer') {
+                    bat 'mvn sonar:sonar -Dsonar.token=%SONAR_TOKEN%'
+                }
             }
         }
 
